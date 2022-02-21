@@ -27,8 +27,10 @@ void onNotFound(AsyncWebServerRequest *request)
     {
         for (auto &handler : requestMap)
         {
-            if (handler.first == request->url())
+            if (handler.first == request->url()) {
                 handler.second(request);
+                return;
+            }
         }
     }
 
