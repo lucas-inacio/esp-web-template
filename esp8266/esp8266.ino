@@ -15,7 +15,7 @@ std::map<String, Handler> requestMap{
         "/toggle",
         [](AsyncWebServerRequest *request) {
             ledState = !ledState;
-            digitalWrite(D4, ledState);
+            digitalWrite(LED_BUILTIN, ledState);
             request->send(200);
         } 
     } 
