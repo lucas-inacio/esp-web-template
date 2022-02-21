@@ -79,7 +79,7 @@ def run_mkspiffs(mkspiffs_path):
 
 def compress_files_in_dir(dir):
     for entry in pathlib.Path(dir).glob('**/*'):
-        if entry.is_file() and entry.suffix != '.gz' and not entry.name.endswith('.LICENSE.txt'):
+        if entry.is_file() and entry.suffix != '.gz':
             with open(entry.absolute(), 'rb') as file_in:
                 with gzip.open(str(entry.absolute()) + '.gz', 'wb') as file_out:
                     shutil.copyfileobj(file_in, file_out)
@@ -103,6 +103,10 @@ if __name__ == '__main__':
 
         # Cria arquivos estáticos do site (bundle)
         run_command('npm run build')
+        # Remove *.LICENSE.txt
+        license_files = pathlib.Path('build').glob('**/*.LICENSE.txt')
+        for file in license_files:
+            file.unlink()
         # Comprime os arquivos no diretório resultante
         compress_files_in_dir('build')
         # Copia os arquivos comprimidos para o diretório esp8266/data
