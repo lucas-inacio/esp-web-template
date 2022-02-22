@@ -77,13 +77,6 @@ def run_mkspiffs(mkspiffs_path):
     except subprocess.CalledProcessError:
         raise Exception('Erro ao criar sistema de arquivos com mkspiffs.')
 
-def compress_files_in_dir(dir):
-    for entry in pathlib.Path(dir).glob('**/*'):
-        if entry.is_file() and entry.suffix != '.gz':
-            with open(entry.absolute(), 'rb') as file_in:
-                with gzip.open(str(entry.absolute()) + '.gz', 'wb') as file_out:
-                    shutil.copyfileobj(file_in, file_out)
-
 # Exclui arquivos não comprimidos
 def exclude_files(parent, contents):
     root = pathlib.Path(parent)
@@ -108,7 +101,7 @@ if __name__ == '__main__':
         for file in license_files:
             file.unlink()
         # Comprime os arquivos no diretório resultante
-        compress_files_in_dir('build')
+        run_command('python gzip-c-array/compress.py build')
         # Copia os arquivos comprimidos para o diretório esp8266/data
         shutil.copytree('build', 'esp8266/data', ignore=exclude_files, dirs_exist_ok=True)
         # Copia public index.htm para esp8266/data

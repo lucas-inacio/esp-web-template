@@ -1,0 +1,3 @@
+[submodule "gzip-c-array"]
+	path = gzip-c-array
+	url = https://github.com/lucas-inacio/gzip-c-array.git
