@@ -4,6 +4,7 @@ Esqueleto de projeto Web para ESP8266 (NodeMCU v3 Lolin)
 ## Estrutura do projeto
 - O código fonte da página web está localizado no diretório src.
 - O código fonte do ESP8266 está no diretório esp8266.
+- Há uma implementação utilizando arrays na memória flash para armazenar as páginas web em esp8266_progmem.
 
 ## Dependências
 O projeto assume que o arduino-cli está instalado e está no caminho do sistema. Também é necessário que a plataforma esp8266:esp8266 esteja instalada bem como as bibliotecas que o projeto utiliza.
@@ -34,5 +35,10 @@ O script necessita da porta serial no qual o ESP8266 está conectado:
 python gravar.py COM4
 ```
 O comando acima gera o bundle para ser gravado no sistema de arquivos SPIFFS. O firmware é compilado e gravado no ESP8266.
+
+Para gravar as páginas na memória flash como arrays utilize:
+```shell
+python gravar.py COM4 --progmem
+```
 
 O firmware padrão apenas comuta o estado do LED do ESP8266 por meio de uma requisição POST enviada pela interface web.
