@@ -49,6 +49,7 @@ void onNotFound(AsyncWebServerRequest *request)
                     200, mime.c_str(), gzipDataMap[i].data, gzipDataMap[i].dataSize);
                 response->addHeader("Content-Encoding", "gzip");
                 request->send(response);
+                return;
             }
         }
     } else if (request->method() == HTTP_POST) {

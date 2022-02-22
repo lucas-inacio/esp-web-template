@@ -84,8 +84,12 @@ def exclude_files(parent, contents):
 
 def clean_up_temp_files():
     data_path = pathlib.Path(target).joinpath('data')
-    if data_path.is_dir():
-        shutil.rmtree(pathlib.Path(target).joinpath('data'))
+    static_dir = data_path.joinpath('static')
+    index_file = data_path.joinpath('index.htm.gz')
+    if static_dir.is_dir():
+        shutil.rmtree(static_dir)
+    if index_file.is_file():
+        index_file.unlink()
     shutil.rmtree('build')
     if path.isfile('esp8266_progmem/web_data.h'):
         os.remove('esp8266_progmem/web_data.h')
