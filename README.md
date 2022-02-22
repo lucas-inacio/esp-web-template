@@ -24,7 +24,7 @@ arduino-cli config set library.enable_unsafe_install false
 ```
 
 ## Configuração
-Após clonar este repositório, na raíz do projeto, digite `npm install` para instalar as dependências.
+Clone o repositório e, na raíz do projeto, digite `git submodule update --init` e então `npm install`. É necessário ter o nodejs instalado.
 
 ## Uso
 Um script python (versão 3) está incluso para automatizar os processos de criação do bundle web, compilação e gravação do sistema de arquivos SPIFFS e do firmware.
