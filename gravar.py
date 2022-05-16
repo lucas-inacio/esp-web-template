@@ -90,7 +90,7 @@ def clean_up_temp_files():
         shutil.rmtree(static_dir)
     if index_file.is_file():
         index_file.unlink()
-    shutil.rmtree('build')
+    shutil.rmtree('build', ignore_errors=True)
     if path.isfile('esp8266_progmem/web_data.h'):
         os.remove('esp8266_progmem/web_data.h')
     if path.isfile(TMP_FILE_NAME):
@@ -98,10 +98,10 @@ def clean_up_temp_files():
 
 def parse_setup():
     parser = argparse.ArgumentParser(description='Gera o projeto e grava no esp8266')
-    parser.add_argument('port', help='a porta serial a ser utilizada', nargs=1)
+    parser.add_argument('port', help='a porta serial a ser utilizada')
     parser.add_argument(
         '--progmem',
-        help='gera um cabeçalho em esp8266_progmem/web_data.h ao invés de utilizar SPIFFS',
+        help='gera um cabeçalho em esp8266_progmem/web_data.h ao invés de utilizar SPIFFS (padrão: --no-progmem)',
         action=argparse.BooleanOptionalAction)
     return parser.parse_args()
 
