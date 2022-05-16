@@ -156,11 +156,11 @@ if __name__ == '__main__':
         if pathlib.Path(TMP_FILE_NAME).is_file():
             # Usa esptool para gravar o arquivo gerado por mkspiffs no microcontrolador
             print('Gravando sistema de arquivos spiffs...')
-            run_command(ESPTOOL_COMMAND_WRITE.format(Port=args.port[0], Address=ADDRESS_SPIFFS, File=TMP_FILE_NAME))
+            run_command(ESPTOOL_COMMAND_WRITE.format(Port=args.port, Address=ADDRESS_SPIFFS, File=TMP_FILE_NAME))
 
         # Grava o sketch no esp8266
         print('Gravando sketch...')
-        run_command(ARDUINO_CLI_COMMAND_UPLOAD.format(Port=args.port[0], Sketch=target))
+        run_command(ARDUINO_CLI_COMMAND_UPLOAD.format(Port=args.port, Sketch=target))
     except argparse.ArgumentError as e:
         print('Argumentos incorretos')
     except subprocess.CalledProcessError as e:
