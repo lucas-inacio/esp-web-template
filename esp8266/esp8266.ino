@@ -15,7 +15,7 @@ std::map<String, Handler> requestMap{
         "/toggle",
         [](AsyncWebServerRequest *request) {
             ledState = !ledState;
-            digitalWrite(LED_BUILTIN, ledState);
+            digitalWrite(1, ledState);
             request->send(200);
         } 
     } 
@@ -45,7 +45,7 @@ void setup() {
     Serial.begin(115200);
     delay(200);
 
-    pinMode(D4, OUTPUT);
+    pinMode(1, OUTPUT);
 
     Serial.print("Inicializando...");
     WiFi.mode(WIFI_STA);
@@ -68,5 +68,5 @@ void setup() {
 }
 
 void loop() {
-
+    
 }

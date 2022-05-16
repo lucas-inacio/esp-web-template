@@ -5,15 +5,16 @@ import pathlib
 import shutil
 import subprocess
 import sys
+import time
 from io import StringIO
 from os import path
 
-ADDRESS_SPIFFS = "0x300000"
+ADDRESS_SPIFFS = "0xCB000"
 TMP_FILE_NAME = "fs.out"
 ARDUINO_CLI_COMMAND_CONFIG = "arduino-cli config dump --format json"
-ARDUINO_CLI_COMMAND_COMPILE = "arduino-cli compile -b esp8266:esp8266:nodemcuv2:mmu=4816H,eesz=4M1M {Sketch}"
-ARDUINO_CLI_COMMAND_UPLOAD = "arduino-cli upload -p {Port} -b esp8266:esp8266:nodemcuv2 {Sketch}"
-MKSPIFFS_ARGS = " -c {Sketch}/data -p 256 -b 8192 -s 1048576 " + TMP_FILE_NAME
+ARDUINO_CLI_COMMAND_COMPILE = "arduino-cli compile -b esp8266:esp8266:generic:mmu=4816H,eesz=1M192 {Sketch}"
+ARDUINO_CLI_COMMAND_UPLOAD = "arduino-cli upload -p {Port} -b esp8266:esp8266:generic {Sketch}"
+MKSPIFFS_ARGS = " -c {Sketch}/data -p 256 -b 4096 -s 196608 " + TMP_FILE_NAME
 ESPTOOL_COMMAND_WRITE = "python -m esptool -p {Port} -b 115200 write_flash {Address} {File}"
 
 def run_command(command_string):
@@ -69,7 +70,7 @@ def run_mkspiffs(mkspiffs_path):
     """
     Executa o programa mkspiffs como: 
     
-    mkspiffs -c esp8266_firebase/data -p 256 -b 8192 -s 1048576 f.out
+    mkspiffs -c esp8266_firebase/data -p 256 -b 4096 -s 65536 f.out
     """
     try:
         run_command(mkspiffs_path + MKSPIFFS_ARGS.format(Sketch=target))
@@ -156,15 +157,17 @@ if __name__ == '__main__':
         if pathlib.Path(TMP_FILE_NAME).is_file():
             # Usa esptool para gravar o arquivo gerado por mkspiffs no microcontrolador
             print('Gravando sistema de arquivos spiffs...')
-            run_command(ESPTOOL_COMMAND_WRITE.format(Port=args.port[0], Address=ADDRESS_SPIFFS, File=TMP_FILE_NAME))
+            run_command(ESPTOOL_COMMAND_WRITE.format(Port=args.port, Address=ADDRESS_SPIFFS, File=TMP_FILE_NAME))
 
         # Grava o sketch no esp8266
+        print('Sistema gravado. Iniciando gravação do sketch em 5 segundos...')
+        time.sleep(5)
         print('Gravando sketch...')
-        run_command(ARDUINO_CLI_COMMAND_UPLOAD.format(Port=args.port[0], Sketch=target))
+        run_command(ARDUINO_CLI_COMMAND_UPLOAD.format(Port=args.port, Sketch=target))
     except argparse.ArgumentError as e:
         print('Argumentos incorretos')
     except subprocess.CalledProcessError as e:
-        print('Erro ao tentar executar arduino-cli. Código', e.returncode)
+        print(e)
     except FileNotFoundError as e:
         print(e)
     except Exception as e:
