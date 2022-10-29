@@ -16,8 +16,8 @@ arduino-cli core update-index
 ```
 Em seguida instale a plataforma e as bibliotecas:
 ```shell
-arduino core install esp8266:esp8266
-arduino lib install "Firebase ESP8266 Client"
+arduino-cli core install esp8266:esp8266
+arduino-cli lib install "Firebase ESP8266 Client"
 arduino-cli config set library.enable_unsafe_install true
 arduino-cli lib install --git-url https://github.com/me-no-dev/ESPAsyncWebServer.git
 arduino-cli lib install --git-url https://github.com/me-no-dev/ESPAsyncTCP.git
